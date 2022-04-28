@@ -1,18 +1,6 @@
 # Imports
 import csv
 
-# Open Coordinate file
-coordsRaw = open('coordsIn.csv', 'r')
-coordsDict = csv.DictReader(coordsRaw, fieldnames=('lat', 'lon'))
-
-# Convert to arrays
-latArray = []
-lonArray = []
-
-for coordRow in coordsDict:
-	latArray.append(coordRow['lat'])
-	lonArray.append(coordRow['lon'])
-
 # Convert Coordinates to required formats
 def convertArray(coordArray):
 	# Iteration ID
@@ -53,19 +41,36 @@ def convertArray(coordArray):
 
 	return coordArray
 
+if __name__ == "__main__":
+	# Open Coordinate file
+	coordsRaw = open('coordsIn.csv', 'r')
+	coordsDict = csv.DictReader(coordsRaw, fieldnames=('lat', 'lon'))
 
-latArray = convertArray(latArray)
-lonArray = convertArray(lonArray)
+	# Convert to arrays
+	latArray = []
+	lonArray = []
 
-# Print Results
-coordNum = 0
-while coordNum < len(lonArray):
+	for coordRow in coordsDict:
+		latArray.append(coordRow['lat'])
+		lonArray.append(coordRow['lon'])
+	coordsRaw.close()
 
-	# compress Arrays
-	lat = ' '.join(str(elem) for elem in latArray[coordNum])
-	lon = ' '.join(str(elem) for elem in lonArray[coordNum])
+	# Convert to required format
+	latArray = convertArray(latArray)
+	lonArray = convertArray(lonArray)
+
+	print(latArray)
+	print(lonArray)
 
 	# Print Results
-	print(lat + " | " + lon)
+	coordNum = 0
+	while coordNum < len(lonArray):
 
-	coordNum += 1
+		# compress Arrays
+		lat = ' '.join(str(elem) for elem in latArray[coordNum])
+		lon = ' '.join(str(elem) for elem in lonArray[coordNum])
+
+		# Print Results
+		print(lat + " | " + lon)
+
+		coordNum += 1
